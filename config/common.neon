@@ -1,5 +1,5 @@
 parameters:
-
+	productionMode: false
 
 application:
 	errorPresenter: Error
