@@ -1,28 +1,35 @@
+// react
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { Button } from 'antd';
+// pages
+import { Home } from './pages/Home';
+import { Config } from './pages/Config';
+import { Edit } from './pages/Edit';
+import { TheNavigation } from './components/TheNavigation';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    return (
+        <div className="App">
+            <Router>
+                <header>
+                    <TheNavigation />
+                </header>
 
-        <Button>click me</Button>
-      </header>
-    </div>
-  );
+                <main>
+                    <Routes>
+                        <Route path='/supl/www/config' element={<Config />} />
+                        <Route path='/supl/www/dashboard' element={<Edit />} />
+                        <Route path='/supl/www/' element={<Home />} />
+                    </Routes>
+                </main>
+
+                <footer>
+                    {/* <p>© 2023 - 2024 Daniel Žitník</p> */}
+                </footer>
+            </Router>
+        </div>
+    );
 }
 
 export default App;

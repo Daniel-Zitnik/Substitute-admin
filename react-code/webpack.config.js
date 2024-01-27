@@ -1,16 +1,19 @@
 const path = require('path');
 const webpack = require('webpack');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    mode: 'development',
     entry: './src/index.tsx',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, '../www/react'),
+        path: path.join(__dirname, '../www/react'),
+        publicPath: '/',
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -24,12 +27,15 @@ module.exports = {
                             "@babel/preset-react",
                             "@babel/preset-typescript",
                         ],
+                        plugins: [
+                            ['import', { libraryName: "antd", style: true }],
+                            require.resolve('react-refresh/babel'),
+                        ],
                     },
                 },
             },
             {
                 test: /\.css$/i,
-                exclude: /node_modules/,
                 use:
                 [
                     'style-loader',
@@ -38,8 +44,13 @@ module.exports = {
             },
         ],
     },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new ReactRefreshWebpackPlugin(),
+        new HTMLWebpackPlugin(),
+    ],
     devServer: {
-        contentBase: path.join(__dirname, '../www/react'),
+        historyApiFallback: true,
         compress: true,
         port: 8080,
         hot: true,

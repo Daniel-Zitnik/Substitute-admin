@@ -19,3 +19,7 @@ di:
 	export:
 		parameters: no
 		tags: no
+
+security:
+	users:
+		admin: s3cr3t  # user 'admin', password 's3cr3t'

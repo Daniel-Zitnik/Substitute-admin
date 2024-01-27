@@ -1,0 +1,12 @@
+{block css}
+    {include parent}
+    <link rel="stylesheet" href="{$basePath}/css/sign.css">
+{/block}
+
+{block content}
+    <h1 n:block=title>Přihlásit se</h1>
+
+    <div class="container">
+        {control signInForm}
+    </div>
+{/block}
