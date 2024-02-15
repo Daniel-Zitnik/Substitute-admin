@@ -6,6 +6,7 @@ import { Button } from 'antd';
 import { Home } from './pages/Home';
 import { Config } from './pages/Config';
 import { Edit } from './pages/Edit';
+// components
 import { TheNavigation } from './components/TheNavigation';
 
 function App() {

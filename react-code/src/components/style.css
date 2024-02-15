@@ -1,0 +1,7 @@
+.highlited-row {
+    background-color: yellow !important;
+}
+
+.ant-picker-calendar-mode-switch {
+    display: none;
+}

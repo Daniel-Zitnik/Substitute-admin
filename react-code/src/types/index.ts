@@ -1,15 +1,23 @@
 // main data
-export type DataType = {
+export type SubstituteDataType = {
     key: React.Key;
     date: string;
     missing: string;
     substitute: string;
     class: string;
-    lesson: number;
+    lesson: string;
     subject: string;
     classroom: string;
     note: string;
     highlited: boolean;
+}
+
+// main data
+export type AddonDataType = {
+    key: React.Key;
+    date: string;
+    text: string;
+    type: number;
 }
 
 // for classes & teachers

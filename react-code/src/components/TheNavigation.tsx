@@ -15,5 +15,3 @@ export const TheNavigation = (props: Props) => {
         </nav>
     )
 }
-
-export default TheNavigation

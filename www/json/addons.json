@@ -1,0 +1,26 @@
+[
+    {
+        "key":1,
+        "date":"24.1.",
+        "text":"text1",
+        "type":1
+    },
+    {
+        "key":2,
+        "date":"24.1.",
+        "text":"text2",
+        "type":2
+    },
+    {
+        "key":3,
+        "date":"24.1.",
+        "text":"text3",
+        "type":3
+    },
+    {
+        "key":4,
+        "date":"24.1.",
+        "text":"text4",
+        "type":1
+    }
+]

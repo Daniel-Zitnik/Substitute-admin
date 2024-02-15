@@ -1,18 +1,18 @@
 [
     {
-      "key":1,
-      "name":"septima"
+        "key":1,
+        "name":"septima"
     },
     {
-      "key":2,
-      "name":"3.A"
+        "key":2,
+        "name":"3.A"
     },
     {
-      "key":3,
-      "name":"3.B"
+        "key":3,
+        "name":"3.B"
     },
     {
-      "key":4,
-      "name":"3.M"
+        "key":4,
+        "name":"3.M"
     }
-  ]
+]
