@@ -1,7 +1,9 @@
 // react
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 // interface
 import type { SubstituteDataType, AddonDataType, NameType } from '../types/index';
+import { Dayjs } from 'dayjs';
 import { ColumnFilterItem } from 'antd/es/table/interface';
 // componets
 import { TheCalendar } from '../components/TheCalendar';
@@ -10,7 +12,41 @@ import { AddonTable } from '../components/AddonTable';
 
 type Props = {}
 
+type SubstituteApi = {
+    id: number;
+    date: string;
+    missing: string;
+    substitute: string;
+    class: string;
+    lesson: string;
+    subject: string;
+    classroom: string;
+    note: string;
+    highlited: number;
+}
+
+type AddonApi = {
+    id: number;
+    date: string;
+    text: string;
+    type: number;
+}
+
 export const Home = (props: Props) => {
+    // get right date
+    const getDate = () => {
+        let selectDay = dayjs().day();
+        const currentHour = dayjs().hour();
+    
+        currentHour >= 16 && selectDay ++;
+        // set to monday if it's saturday or sunday
+        if (selectDay == 0 || selectDay == 6) {
+            selectDay = 1;
+        }
+    
+        return dayjs().day(selectDay) as Dayjs;
+    }
+
     // data
     const [substituteData, setSubstituteData] = useState<SubstituteDataType[]>([]);
     const [teachers, setTeachers] = useState<ColumnFilterItem[]>([]);
@@ -19,36 +55,73 @@ export const Home = (props: Props) => {
     // loading animation
     const [substituteTableLoading, setSubstituteTableLoading] = useState<boolean>(true);
     const [addonTableLoading, setAddonTableLoading] = useState<boolean>(true);
+    // date
+    const [date, setDate] = useState<Dayjs>(getDate());
+    let dateToPost = getDate().format('YYYY-MM-DD');
 
     // load data
     useEffect(() => {
-        const jsonFiles = ['./json/main.json', './json/teachers.json', './json/classes.json'];
-        
-        Promise.all(jsonFiles.map(file => fetch(file).then(res => res.json())))
-            .then(dataArray => {
-                setSubstituteData(dataArray[0]);
-                setTeachers(dataArray[1].splice(2).map(extractData));
-                setClasses(dataArray[2].map(extractData));
-                setSubstituteTableLoading(false);
-            })
-            .catch(e => {
+        const fetchAll = async () => {
+            try {
+                // fetch teachers & classes
+                const responseTeachers = await fetch('/supl/www/api/getTeachers');
+                const responseClasses = await fetch('/supl/www/api/getClasses');
+
+                const responseTeachersJson: NameType[] = await responseTeachers.json();
+                const responseClassesJson: NameType[] = await responseClasses.json();
+
+                setTeachers(responseTeachersJson.splice(2).map(extractData));
+                setClasses(responseClassesJson.map(extractData));
+                // fetch tables data
+                await fetchData('getSubstitutes');
+                await fetchData('getAddons');
+            } catch (e) {
                 console.error(e);
-            });
-        
-        fetch('./json/addons.json')
-            .then(res => res.json())
-            .then(json => { setAddonData(json); setAddonTableLoading(false); })
-            .catch(e => console.error(e));
+            }
+        };
+
+        fetchAll();
     }, []);
 
     const extractData = ({ name }: NameType) => {
         return {text: name, value: name} as ColumnFilterItem;
     }
 
+    const fetchData = async (url: string) => {
+        // fetch data with correct date   
+        const response = await fetch(`/supl/www/api/${url}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ value: dateToPost }),
+        });
+
+        // extract & set data
+        if (url == 'getSubstitutes') {
+            const responseJson: SubstituteApi[] = await response.json();
+            setSubstituteData(responseJson.map(({ id, ...rest }: SubstituteApi) => { return { key: id, ...rest }; }));
+            setSubstituteTableLoading(false);
+        } else {
+            const responseJson: AddonApi[] = await response.json();
+            setAddonData(responseJson.map(({ id, ...rest }: AddonApi) => { return { key: id, ...rest }; }));
+            setAddonTableLoading(false); 
+        }
+    }
+
+    const handleCalendarChange = (day: Dayjs) => {
+        dateToPost = day.format('YYYY-MM-DD');
+        setDate(day);
+        setSubstituteTableLoading(true);
+        setAddonTableLoading(true);
+        fetchData('getSubstitutes');
+        fetchData('getAddons');
+    }
+
     // template
     return (
         <div>
-            <TheCalendar />
+            <TheCalendar onCalendarChange={handleCalendarChange} date={date}/>
             <SubstituteTable data={substituteData} teachers={teachers} classes={classes} loading={substituteTableLoading} />
             <AddonTable data={addonData} loading={addonTableLoading} />
         </div>

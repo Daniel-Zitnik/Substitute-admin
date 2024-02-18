@@ -9,10 +9,10 @@ export type SubstituteDataType = {
     subject: string;
     classroom: string;
     note: string;
-    highlited: boolean;
+    highlited: number;
 }
 
-// main data
+// addon data
 export type AddonDataType = {
     key: React.Key;
     date: string;

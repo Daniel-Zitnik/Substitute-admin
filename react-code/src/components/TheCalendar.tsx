@@ -9,20 +9,10 @@ import { Dayjs } from 'dayjs';
 // style
 import './style.css';
 
-type Props = {}
-
-const setDate = () => {
-    let selectDay = dayjs().day();
-    const currentHour = dayjs().hour();
-
-    currentHour >= 16 && selectDay ++;
-
-    return dayjs().day(selectDay);
+type Props = {
+    onCalendarChange: (day: Dayjs) => void;
+    date: Dayjs;
 }
-
-const onCalendarChange = (day: Dayjs, info: SelectInfo) => {
-    console.log('date changed');
-};
 
 export const TheCalendar = (props: Props) => {
     const wrapperStyle: React.CSSProperties = {
@@ -31,9 +21,13 @@ export const TheCalendar = (props: Props) => {
         borderRadius: `10px`,
     };
 
+    const onCalendarChange = (day: Dayjs) => {
+        props.onCalendarChange(day);
+    };
+
     return (
         <div style={wrapperStyle}>
-            <Calendar defaultValue={setDate()} fullscreen={false} onSelect={onCalendarChange} />
+            <Calendar defaultValue={props.date} fullscreen={false} onSelect={onCalendarChange} />
         </div>
     )
 }
