@@ -50,4 +50,12 @@ class ApiPresenter extends Presenter
 
         $this->sendJson($data);
     }
+
+    public function actionSetSubstitutes()
+    {
+        $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
+
+        $this->facade->setApiData('substitutes', $payload);
+        $this->sendJson(['status' => 'success']);
+    }
 }

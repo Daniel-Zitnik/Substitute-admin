@@ -22,7 +22,7 @@ type SubstituteApi = {
     subject: string;
     classroom: string;
     note: string;
-    highlited: number;
+    highlighted: number;
 }
 
 type AddonApi = {

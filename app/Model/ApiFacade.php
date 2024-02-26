@@ -31,4 +31,32 @@ final class ApiFacade
 
         return $data;
 	}
+
+	public function setApiData(string $table, $payload)
+	{
+		$action = $payload['action'];
+
+		if ($action == 'create') {
+			$data = $payload['value'];
+			
+			$this->database
+				->table($table)
+				->insert($data);
+		} else if ($action == 'edit') {
+			$data = $payload['value'];
+        	$id = $payload['id'];
+
+			$oldData = $this->database
+				->table($table)
+				->get($id);
+			$oldData->update($data);
+		} else {
+			$id = $payload['id'];
+
+			$this->database
+				->table($table)
+				->get($id)
+				->delete();
+		}
+	}
 }

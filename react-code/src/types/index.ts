@@ -9,7 +9,7 @@ export type SubstituteDataType = {
     subject: string;
     classroom: string;
     note: string;
-    highlited: number;
+    highlighted: number;
 }
 
 // addon data
@@ -24,4 +24,9 @@ export type AddonDataType = {
 export type NameType = {
     key: React.Key;
     name: string;
+}
+
+export type SelectType = {
+    value: string;
+    label: string;
 }
