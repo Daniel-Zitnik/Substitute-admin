@@ -1,15 +1,16 @@
 // react
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { Table, Button, Space, Modal } from 'antd';
-import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Modal } from 'antd';
 // interface
-import type { SubstituteDataType as DataType, NameType, SelectType } from '../types/index';
+import type { SubstituteDataType, AddonDataType, NameType, SelectType } from '../types/index';
 import { Dayjs } from 'dayjs';
-import type { TableColumnsType } from 'antd';
 // componets
 import { TheCalendar } from '../components/TheCalendar';
+import { SubstituteEditTable } from '../components/SubstituteEditTable';
 import { SubstituteEditForm } from '../components/SubstituteEditForm';
+import { AddonEditTable } from '../components/AddonEditTable';
+import { AddonEditForm } from '../components/AddonEditForm';
 
 type Props = {}
 
@@ -24,6 +25,13 @@ type SubstituteApi = {
     classroom: string;
     note: string;
     highlighted: number;
+}
+
+type AddonApi = {
+    id: number;
+    date: string;
+    text: string;
+    type: number;
 }
 
 export const Edit = (props: Props) => {
@@ -42,17 +50,22 @@ export const Edit = (props: Props) => {
     }
 
     // data
-    const [data, setData] = useState<DataType[]>([]);
+    const [substituteData, setSubstituteData] = useState<SubstituteDataType[]>([]);
+    const [addonData, setAddonData] = useState<AddonDataType[]>([]);
     // loading animation
-    const [loading, setLoading] = useState<boolean>(true);
+    const [substituteTableLoading, setSubstituteTableLoading] = useState<boolean>(true);
+    const [addonTableLoading, setAddonTableLoading] = useState<boolean>(true);
     const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false);
     // date
     const [date, setDate] = useState<Dayjs>(getDate());
     let dateToPost = getDate().format('YYYY-MM-DD');
-    // table
-    const [formOpen, setFormOpen] = useState<boolean>(false);
-    const [selectedItem, setSelectedItem] = useState<DataType>();
-    // edit form
+    // substitute table
+    const [substituteFormOpen, setSubstituteFormOpen] = useState<boolean>(false);
+    const [selectedSubstituteItem, setSelectedSubstituteItem] = useState<SubstituteDataType>();
+    // addon table
+    const [addonFormOpen, setAddonFormOpen] = useState<boolean>(false);
+    const [selectedAddonItem, setSelectedAddonItem] = useState<AddonDataType>();
+    // edit substitute form
     const [teachersSelect, setTeachersSelect] = useState<SelectType[]>([]);
     const [classesSelect, setClassesSelect] = useState<SelectType[]>([]);
 
@@ -70,7 +83,8 @@ export const Edit = (props: Props) => {
                 setTeachersSelect (responseTeachersJson.map(extractData));
                 setClassesSelect (responseClassesJson.map(extractData));
                 // fetch tables data
-                await fetchData();
+                await fetchData('getSubstitutes');
+                await fetchData('getAddons');             
             } catch (e) {
                 console.error(e);
             }
@@ -79,10 +93,9 @@ export const Edit = (props: Props) => {
         fetchAll();
     }, []);
 
-    const fetchData = async () => {
-        setLoading(true);
+    const fetchData = async (url: string) => {
         // fetch data with correct date   
-        const response = await fetch('/supl/www/api/getSubstitutes', {
+        const response = await fetch(`/supl/www/api/${url}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,9 +104,15 @@ export const Edit = (props: Props) => {
         });
 
         // extract & set data
-        const responseJson: SubstituteApi[] = await response.json();
-        setData(responseJson.map(({ id, ...rest }: SubstituteApi) => { return { key: id, ...rest }; }));
-        setLoading(false);
+        if (url == 'getSubstitutes') {
+            const responseJson: SubstituteApi[] = await response.json();
+            setSubstituteData(responseJson.map(({ id, ...rest }: SubstituteApi) => { return { key: id, ...rest }; }));
+            setSubstituteTableLoading(false);
+        } else {
+            const responseJson: AddonApi[] = await response.json();
+            setAddonData(responseJson.map(({ id, ...rest }: AddonApi) => { return { key: id, ...rest }; }));
+            setAddonTableLoading(false); 
+        }
     }
 
     const extractData = ({ name }: NameType) => {
@@ -103,19 +122,23 @@ export const Edit = (props: Props) => {
     const handleCalendarChange = (day: Dayjs) => {
         dateToPost = day.format('YYYY-MM-DD');
         setDate(day);
-        fetchData();
+        setSubstituteTableLoading(true);
+        setAddonTableLoading(true);
+        fetchData('getSubstitutes');
+        fetchData('getAddons');  
     }
 
-    const handleCreate = () => {
-        setFormOpen(true);
+    const handleEditSubstitute = (item: SubstituteDataType) => {
+        setSelectedSubstituteItem(item);
+        setSubstituteFormOpen(true);
     };
 
-    const handleEdit = (item: DataType) => {
-        setSelectedItem(item);
-        setFormOpen(true);
+    const handleEditAddon = (item: AddonDataType) => {
+        setSelectedAddonItem(item);
+        setAddonFormOpen(true);
     };
 
-    const handleSave = async (values: DataType, action: string, id?: React.Key) => {
+    const handleSave = async (which: string, values: SubstituteDataType | AddonDataType, action: string, id?: React.Key) => {
         setLoadingUpdate(true);
         // set date
         const dateProp = 'date';
@@ -124,7 +147,7 @@ export const Edit = (props: Props) => {
 
         try {
             // post new data
-            const response = await fetch('/supl/www/api/setSubstitutes', {
+            const response = await fetch(`/supl/www/api/${which == 'substitute' ? 'setSubstitute' : 'setAddon'}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -139,25 +162,34 @@ export const Edit = (props: Props) => {
 
             // close form
             setLoadingUpdate(false);
-            setFormOpen(false);
-            setSelectedItem(undefined);
-            // reload data
-            fetchData();
+            if (which == 'substitute') {
+                setSubstituteFormOpen(false);
+                setSelectedSubstituteItem(undefined);
+                // reload data
+                fetchData('getSubstitutes');
+            } else {
+                setAddonFormOpen(false);
+                setSelectedAddonItem(undefined);
+                // reload data
+                fetchData('getAddons');
+            }
         } catch (e) {
             console.error(e);
         }
     };
 
-    const handleDelete = (item: DataType) => {
+    const handleDelete = (which: string, item: SubstituteDataType | AddonDataType) => {
         Modal.confirm({
-            title: 'Opravdu chete smazat toto suplování?',
+            title: `Opravdu chete smazat ${which == 'substitute' ? 'toto suplování' : 'tuto poznámku'}?`,
             content: 'Tato operace je nevratná.',
             okText: 'Ano',
             cancelText: 'Zrušit',
             onOk: async () => {
+                dateToPost = date.format('YYYY-MM-DD');
+
                 try {
                     // post item id
-                    const response = await fetch('/supl/www/api/setSubstitutes', {
+                    const response = await fetch(`/supl/www/api/${which == 'substitute' ? 'setSubstitute' : 'setAddon'}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -171,7 +203,7 @@ export const Edit = (props: Props) => {
                     }
                     
                     // reload data
-                    fetchData();
+                    fetchData(`${which == 'substitute' ? 'getSubstitutes' : 'getAddons'}`);
                 } catch (e) {
                     console.error(e);
                 }
@@ -179,68 +211,26 @@ export const Edit = (props: Props) => {
         });
     };
 
-    const handleFormClose = () => {
-        setFormOpen(false);
-        setSelectedItem(undefined);
+    const handleSubstituteFormClose = () => {
+        setSubstituteFormOpen(false);
+        setSelectedSubstituteItem(undefined);
     };
 
-    const columns: TableColumnsType<DataType> = [
-        {
-            title: 'Chybějící',
-            dataIndex: 'missing',
-            key: 'missing',
-        },
-        {
-            title: 'Třída',
-            dataIndex: 'class',
-            key: 'class',
-        },
-        {
-            title: 'Hodina',
-            dataIndex: 'lesson',
-            key: 'lesson',
-        },
-        {
-            title: 'Předmět',
-            dataIndex: 'subject',
-            key: 'subject',
-        },
-        {
-            title: 'Učebna',
-            dataIndex: 'classroom',
-            key: 'classroom',
-        },
-        {
-            title: 'Supluje',
-            dataIndex: 'substitute',
-            key: 'substitute',
-        },
-        {
-            title: 'Poznámka',
-            dataIndex: 'note',
-            key: 'note',
-        },
-        {
-            title: 'Upravit',
-            key: 'action',
-            align: 'center',
-            width: 100,
-            render: (_, record) => (
-                <Space size="large">
-                    <FormOutlined onClick={() => handleEdit(record)} />
-                    <DeleteOutlined onClick={() => handleDelete(record)} />
-                </Space>
-            ),
-        },
-    ];
+    const handleAddonFormClose = () => {
+        setAddonFormOpen(false);
+        setSelectedAddonItem(undefined);
+    };
 
     // template
     return (
         <div>
             <TheCalendar onCalendarChange={handleCalendarChange} date={date}/>
-            {formOpen && <SubstituteEditForm data={selectedItem} onClose={handleFormClose} onSave={handleSave} teachers={teachersSelect} classes={classesSelect} loading={loadingUpdate} />}
-            <Table dataSource={data} columns={columns} loading={loading} pagination={false} rowClassName={(record: DataType) => record.highlighted == 1 ? 'highlited-row' : ''} />
-            <Button type='primary' onClick={handleCreate}>Přidat</Button>
+            {substituteFormOpen && <SubstituteEditForm data={selectedSubstituteItem} onClose={handleSubstituteFormClose} onSave={handleSave} teachers={teachersSelect} classes={classesSelect} loading={loadingUpdate} />}
+            <SubstituteEditTable data={substituteData} loading={substituteTableLoading} onEdit={handleEditSubstitute} onDelete={handleDelete} />
+            <Button type='primary' onClick={() => setSubstituteFormOpen(true)}>Přidat</Button>
+            {addonFormOpen && <AddonEditForm data={selectedAddonItem} onClose={handleAddonFormClose} onSave={handleSave} loading={loadingUpdate} />}
+            <AddonEditTable data={addonData} loading={substituteTableLoading} onEdit={handleEditAddon} onDelete={handleDelete} />
+            <Button type='primary' onClick={() => setAddonFormOpen(true)}>Přidat</Button>
         </div>
     )
 }

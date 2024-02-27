@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import { Button, Form, Input, Modal, Select, Checkbox } from 'antd';
 // interface
 import type { SubstituteDataType as DataType, SelectType } from '../types/index';
+// text form
+const { TextArea } = Input;
 
 type Props = {
     data?: DataType;
     onClose: () => void;
-    onSave: (values: DataType, action: string, id?: React.Key) => void;
+    onSave: (which: string, values: DataType, action: string, id?: React.Key) => void;
     teachers: SelectType[];
     classes: SelectType[];
     loading: boolean;
@@ -34,10 +36,10 @@ export const SubstituteEditForm = (props: Props) => {
                 values.highlighted = checked;
                 if (data) {
                     // edit
-                    onSave(values, action, data.key);
+                    onSave('substitute', values, action, data.key);
                 } else {
                     // create
-                    onSave(values, action);
+                    onSave('substitute', values, action);
                 }
             })
             .catch(e => {
@@ -88,7 +90,7 @@ export const SubstituteEditForm = (props: Props) => {
                         />
                     </Form.Item>
                     <Form.Item label="Poznámka" name="note">
-                        <Input />
+                        <TextArea autoSize={{ minRows: 3, maxRows: 6 }} />
                     </Form.Item>
                     <Form.Item label="Zvýraznit" name="highlighted">
                         <Checkbox checked={checked} onClick={handleCheckboxChange}/>
