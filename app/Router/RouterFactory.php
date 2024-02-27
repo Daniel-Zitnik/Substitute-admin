@@ -23,8 +23,8 @@ final class RouterFactory
 		$router->addRoute('/supl/www/api/getAddons', 'Api:GetAddons');
 		$router->addRoute('/supl/www/api/setSubstitute', 'Api:SetSubstitute');
 		$router->addRoute('/supl/www/api/setAddon', 'Api:SetAddon');
-		// $router->addRoute('/supl/www/api/setTeacher', 'Api:SetTeacher');
-		// $router->addRoute('/supl/www/api/setClass', 'Api:SetClass');
+		$router->addRoute('/supl/www/api/setTeacher', 'Api:SetTeacher');
+		$router->addRoute('/supl/www/api/setClass', 'Api:SetClass');
 		$router->addRoute('/supl/www/[<param .+>]', 'Home:default');
 		return $router;
 	}

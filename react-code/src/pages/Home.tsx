@@ -70,7 +70,7 @@ export const Home = (props: Props) => {
                 const responseTeachersJson: NameType[] = await responseTeachers.json();
                 const responseClassesJson: NameType[] = await responseClasses.json();
 
-                setTeachers(responseTeachersJson.splice(2).map(extractData));
+                setTeachers(responseTeachersJson.map(extractData));
                 setClasses(responseClassesJson.map(extractData));
                 // fetch tables data
                 await fetchData('getSubstitutes');
@@ -127,5 +127,3 @@ export const Home = (props: Props) => {
         </div>
     )
 }
-
-export default Home

@@ -10,20 +10,21 @@ type Props = {
     data?: DataType;
     onClose: () => void;
     onSave: (which: string, values: DataType, action: string, id?: React.Key) => void;
-    teachers: SelectType[];
+    missings: SelectType[];
     classes: SelectType[];
+    substitutes: SelectType[];
     loading: boolean;
 }
 
 export const SubstituteEditForm = (props: Props) => {
     // props
-    const { data, onClose, onSave, teachers, classes, loading } = props;
+    const { data, onClose, onSave, missings, classes, substitutes, loading } = props;
     // highlighted checkbox
     const [checked, setChecked] = useState(data?.highlighted === 1 ? true : false);
     // form data
     const [form] = Form.useForm();
     // action
-    const action = data ? 'edit' : 'create';
+    const action = data ? 'edit' : 'create';  
 
     const handleCheckboxChange = () => {
         setChecked(!checked);
@@ -67,7 +68,7 @@ export const SubstituteEditForm = (props: Props) => {
                 <Form initialValues={data} form={form}>
                     <Form.Item label="Chybějící" name="missing" rules={[{ required: true }]}>
                         <Select
-                            options={teachers}
+                            options={missings}
                         />
                     </Form.Item>
                     <Form.Item label="Třída" name="class" rules={[{ required: true }]}>
@@ -86,7 +87,7 @@ export const SubstituteEditForm = (props: Props) => {
                     </Form.Item>
                     <Form.Item label="Supluje" name="substitute" rules={[{ required: true }]}>
                         <Select
-                            options={teachers}
+                            options={substitutes}
                         />
                     </Form.Item>
                     <Form.Item label="Poznámka" name="note">

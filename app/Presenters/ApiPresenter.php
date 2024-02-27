@@ -66,4 +66,20 @@ class ApiPresenter extends Presenter
         $this->facade->setApiData('addons', $payload);
         $this->sendJson(['status' => 'success']);
     }
+
+    public function actionSetTeacher()
+    {
+        $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
+
+        $this->facade->setApiData('teachers', $payload);
+        $this->sendJson(['status' => 'success']);
+    }
+
+    public function actionSetClass()
+    {
+        $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
+
+        $this->facade->setApiData('classes', $payload);
+        $this->sendJson(['status' => 'success']);
+    }
 }

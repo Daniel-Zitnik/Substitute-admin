@@ -66,8 +66,9 @@ export const Edit = (props: Props) => {
     const [addonFormOpen, setAddonFormOpen] = useState<boolean>(false);
     const [selectedAddonItem, setSelectedAddonItem] = useState<AddonDataType>();
     // edit substitute form
-    const [teachersSelect, setTeachersSelect] = useState<SelectType[]>([]);
+    const [missingsSelect, setMissingsSelect] = useState<SelectType[]>([]);
     const [classesSelect, setClassesSelect] = useState<SelectType[]>([]);
+    const [substitutesSelect, setSubstitutesSelect] = useState<SelectType[]>([]);
 
     // load data
     useEffect(() => {
@@ -79,9 +80,12 @@ export const Edit = (props: Props) => {
 
                 const responseTeachersJson: NameType[] = await responseTeachers.json();
                 const responseClassesJson: NameType[] = await responseClasses.json();
+                let substitute: SelectType[] = responseTeachersJson.map(extractData);
+                substitute.push({ value: 'odpadá', label: 'odpadá' }, { value: 'oběd', label: 'oběd' });
 
-                setTeachersSelect (responseTeachersJson.map(extractData));
+                setMissingsSelect (responseTeachersJson.map(extractData));
                 setClassesSelect (responseClassesJson.map(extractData));
+                setSubstitutesSelect (substitute);
                 // fetch tables data
                 await fetchData('getSubstitutes');
                 await fetchData('getAddons');             
@@ -225,7 +229,7 @@ export const Edit = (props: Props) => {
     return (
         <div>
             <TheCalendar onCalendarChange={handleCalendarChange} date={date}/>
-            {substituteFormOpen && <SubstituteEditForm data={selectedSubstituteItem} onClose={handleSubstituteFormClose} onSave={handleSave} teachers={teachersSelect} classes={classesSelect} loading={loadingUpdate} />}
+            {substituteFormOpen && <SubstituteEditForm data={selectedSubstituteItem} onClose={handleSubstituteFormClose} onSave={handleSave} missings={missingsSelect} classes={classesSelect} substitutes={substitutesSelect} loading={loadingUpdate} />}
             <SubstituteEditTable data={substituteData} loading={substituteTableLoading} onEdit={handleEditSubstitute} onDelete={handleDelete} />
             <Button type='primary' onClick={() => setSubstituteFormOpen(true)}>Přidat</Button>
             {addonFormOpen && <AddonEditForm data={selectedAddonItem} onClose={handleAddonFormClose} onSave={handleSave} loading={loadingUpdate} />}
@@ -234,5 +238,3 @@ export const Edit = (props: Props) => {
         </div>
     )
 }
-
-export default Edit
