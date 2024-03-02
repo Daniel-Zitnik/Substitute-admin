@@ -6,7 +6,7 @@ import type { TableColumnsType, TablePaginationConfig } from 'antd';
 import type { SubstituteDataType as DataType } from '../types/index';
 import { ColumnFilterItem, FilterValue, SortOrder, SorterResult } from 'antd/es/table/interface';
 // style
-import './style.css';
+import '../style/style.less';
 
 type Props = {
     data: DataType[];

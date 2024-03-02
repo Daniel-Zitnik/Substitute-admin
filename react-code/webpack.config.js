@@ -35,11 +35,12 @@ module.exports = {
                 },
             },
             {
-                test: /\.css$/i,
+                test: /\.(less|css)$/i,
                 use:
                 [
                     'style-loader',
                     'css-loader',
+                    'less-loader',
                 ],
             },
         ],

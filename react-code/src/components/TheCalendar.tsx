@@ -7,7 +7,7 @@ import { SelectInfo } from 'antd/es/calendar/generateCalendar';
 // types
 import { Dayjs } from 'dayjs';
 // style
-import './style.css';
+import '../style/style.less';
 
 type Props = {
     onCalendarChange: (day: Dayjs) => void;

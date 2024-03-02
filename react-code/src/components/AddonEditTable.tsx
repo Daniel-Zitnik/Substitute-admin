@@ -6,7 +6,7 @@ import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { TableColumnsType } from 'antd';
 import type { AddonDataType as DataType } from '../types/index';
 // style
-import './style.css';
+import '../style/style.less';
 
 type Props = {
     data: DataType[],
