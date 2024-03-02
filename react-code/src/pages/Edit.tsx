@@ -78,10 +78,22 @@ export const Edit = (props: Props) => {
                 const responseTeachers = await fetch('/supl/www/api/getTeachers');
                 const responseClasses = await fetch('/supl/www/api/getClasses');
 
-                const responseTeachersJson: NameType[] = await responseTeachers.json();
-                const responseClassesJson: NameType[] = await responseClasses.json();
-                let substitute: SelectType[] = responseTeachersJson.map(extractData);
-                substitute.push({ value: 'odpadá', label: 'odpadá' }, { value: 'oběd', label: 'oběd' });
+                let responseTeachersJson: NameType[] = await responseTeachers.json();
+                let responseClassesJson: NameType[] = await responseClasses.json();
+
+                // sort teachers by alphabet
+                responseTeachersJson.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
+                let substitute: SelectType[] = [{ value: 'odpadá', label: 'odpadá' }, { value: 'oběd', label: 'oběd' }];
+                substitute.push(...responseTeachersJson.map(extractData));
 
                 setMissingsSelect (responseTeachersJson.map(extractData));
                 setClassesSelect (responseClassesJson.map(extractData));

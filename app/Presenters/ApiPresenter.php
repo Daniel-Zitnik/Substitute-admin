@@ -13,6 +13,12 @@ class ApiPresenter extends Presenter
 
 	}
 
+    public function actionGetLoginStatus()
+    {
+        $isLoggedIn = $this->user->isLoggedIn();
+        $this->sendJson(['isLoggedIn' => $isLoggedIn]);
+    }
+
     public function actionGetSubstitutes()
     {
         $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
@@ -53,33 +59,32 @@ class ApiPresenter extends Presenter
 
     public function actionSetSubstitute()
     {
-        $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
-
-        $this->facade->setApiData('substitutes', $payload);
-        $this->sendJson(['status' => 'success']);
+        $this->setData('substitutes');
     }
 
     public function actionSetAddon()
     {
-        $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
-
-        $this->facade->setApiData('addons', $payload);
-        $this->sendJson(['status' => 'success']);
+        $this->setData('addons');
     }
 
     public function actionSetTeacher()
     {
-        $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
-
-        $this->facade->setApiData('teachers', $payload);
-        $this->sendJson(['status' => 'success']);
+        $this->setData('teachers');
     }
 
     public function actionSetClass()
     {
-        $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
+        $this->setData('classes');
+    }
 
-        $this->facade->setApiData('classes', $payload);
-        $this->sendJson(['status' => 'success']);
+    private function setData($table) {
+        if ($this->user->isLoggedIn()) {
+            $payload = json_decode($this->getHttpRequest()->getRawBody(), true);
+
+            $this->facade->setApiData($table, $payload);
+            $this->sendJson(['status' => 'success']);
+        } else {
+            $this->sendJson(['status' => 'user not logged in']);
+        }
     }
 }

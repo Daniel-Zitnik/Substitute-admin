@@ -1,4 +1,9 @@
 {block content}
+    {if $user->isLoggedIn()}
+        <script>window.userIsLoggedIn = true;</script>
+    {else}
+        <script>window.userIsLoggedIn = false;</script>
+    {/if}
     <div id="root"></div>
     <script src="./react/bundle.js"></script>
 {/block}

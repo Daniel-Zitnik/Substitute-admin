@@ -67,8 +67,19 @@ export const Home = (props: Props) => {
                 const responseTeachers = await fetch('/supl/www/api/getTeachers');
                 const responseClasses = await fetch('/supl/www/api/getClasses');
 
-                const responseTeachersJson: NameType[] = await responseTeachers.json();
-                const responseClassesJson: NameType[] = await responseClasses.json();
+                let responseTeachersJson: NameType[] = await responseTeachers.json();
+                let responseClassesJson: NameType[] = await responseClasses.json();
+
+                // sort teachers by alphabet
+                responseTeachersJson.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    return 0;
+                });
 
                 setTeachers(responseTeachersJson.map(extractData));
                 setClasses(responseClassesJson.map(extractData));

@@ -17,6 +17,7 @@ final class RouterFactory
 		$router = new RouteList;
 		$router->addRoute('/supl/www/sign/in', 'Sign:in');
 		$router->addRoute('/supl/www/sign/out', 'Sign:out');
+		$router->addRoute('/supl/www/api/getLoginStatus', 'Api:GetLoginStatus');
 		$router->addRoute('/supl/www/api/getSubstitutes', 'Api:GetSubstitutes');
 		$router->addRoute('/supl/www/api/getTeachers', 'Api:GetTeachers');
 		$router->addRoute('/supl/www/api/getClasses', 'Api:GetClasses');

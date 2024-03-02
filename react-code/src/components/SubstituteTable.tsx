@@ -2,22 +2,54 @@
 import React from 'react'
 import { Table } from 'antd';
 // interface
-import type { TableColumnsType } from 'antd';
+import type { TableColumnsType, TablePaginationConfig } from 'antd';
 import type { SubstituteDataType as DataType } from '../types/index';
-import { ColumnFilterItem } from 'antd/es/table/interface';
+import { ColumnFilterItem, FilterValue, SortOrder, SorterResult } from 'antd/es/table/interface';
 // style
 import './style.css';
 
 type Props = {
-    data: DataType[],
-    teachers: ColumnFilterItem[],
-    classes: ColumnFilterItem[],
-    loading: boolean
+    data: DataType[];
+    teachers: ColumnFilterItem[];
+    classes: ColumnFilterItem[];
+    loading: boolean;
+}
+
+type TableFilters = {
+    class: FilterValue | null;
+    missing: FilterValue | null;
+    substitute: FilterValue | null;
+    lesson: SortOrder | undefined;
 }
 
 export const SubstituteTable = (props: Props) => {
+    // get local storage data
+    const getLocalStorageData = () => {
+        const gotData = localStorage.getItem('substituteTableFilters');
+        if (gotData !== null) {
+            return JSON.parse(gotData) as TableFilters;
+        } else {
+            const filtersObject = {
+                class: null,
+                missing: null,
+                substitute: null,
+                lesson: undefined,
+            }
+
+            localStorage.setItem( 'substituteTableFilters', JSON.stringify(filtersObject) );
+            return filtersObject as TableFilters;
+        }
+    }
     // data
     const { data, teachers, classes, loading } = props;
+    // filters
+    const filters: TableFilters = getLocalStorageData();
+    // filter change
+    const handleTableChange = (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: SorterResult<DataType> | SorterResult<DataType>[]) => {
+        if (Array.isArray(sorter) == false) {
+            localStorage.setItem( 'substituteTableFilters', JSON.stringify({ ...filters, lesson: sorter.order }) );
+        }
+    };
     // table structure
     const columns: TableColumnsType<DataType> = [
         {
@@ -26,6 +58,7 @@ export const SubstituteTable = (props: Props) => {
             key: 'missing',
             filters: teachers,
             onFilter: (value: React.Key | boolean, record: DataType) => (typeof value === 'string') ? record.missing === value : true,
+            defaultFilteredValue: filters.missing,
         },
         {
             title: 'Třída',
@@ -33,11 +66,14 @@ export const SubstituteTable = (props: Props) => {
             key: 'class',
             filters: classes,
             onFilter: (value: React.Key | boolean, record: DataType) => (typeof value === 'string') ? record.class === value : true,
+            defaultFilteredValue: filters.class,
         },
         {
             title: 'Hodina',
             dataIndex: 'lesson',
             key: 'lesson',
+            defaultSortOrder: filters.lesson,
+            sorter: (a, b) => parseInt(a.lesson.charAt(0)) - parseInt(b.lesson.charAt(0)),
         },
         {
             title: 'Předmět',
@@ -55,6 +91,7 @@ export const SubstituteTable = (props: Props) => {
             key: 'substitute',
             filters: teachers,
             onFilter: (value: React.Key | boolean, record: DataType) => (typeof value === 'string') ? record.substitute === value : true,
+            defaultFilteredValue: filters.substitute,
         },
         {
             title: 'Poznámka',
@@ -65,6 +102,6 @@ export const SubstituteTable = (props: Props) => {
 
     // template
     return (
-        <Table dataSource={data} columns={columns} loading={loading} pagination={false} rowClassName={(record: DataType) => record.highlighted == 1 ? 'highlited-row' : ''} />
+        <Table dataSource={data} columns={columns} onChange={handleTableChange} loading={loading} pagination={false} rowClassName={(record: DataType) => record.highlighted == 1 ? 'highlited-row' : ''} />
     )
 }
