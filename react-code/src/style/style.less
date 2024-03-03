@@ -1,7 +1,11 @@
-.highlited-row td {
-    background-color: yellow !important;
-}
+@import 'variables';
 
-.ant-picker-calendar-mode-switch {
-    display: none;
+.highlited-row {
+    td {
+        background-color: @primary-color-light !important;
+    }
+
+    .ant-table-cell-row-hover {
+        background-color: darken(@primary-color-light, 3%) !important;
+    }
 }

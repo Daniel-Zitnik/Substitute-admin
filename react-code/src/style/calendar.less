@@ -1,0 +1,25 @@
+@import 'variables';
+
+.disabled-dates() {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.calendar {
+    width: 300px;
+    border: 1px solid @border-color;
+}
+
+.ant-picker-content {
+    .ant-picker-cell-disabled {
+        .disabled-dates();
+
+        &::before {
+            background-color: transparent !important;
+        }
+    }
+    
+    thead tr > th:nth-child(6),
+    thead tr > th:nth-child(7) {
+        .disabled-dates();
+    }
+}

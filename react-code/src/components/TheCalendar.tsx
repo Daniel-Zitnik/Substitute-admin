@@ -1,13 +1,15 @@
 // react
 import dayjs from 'dayjs';
 import React from 'react';
-import { Calendar } from 'antd';
+import { Calendar, DatePicker } from 'antd';
+import locale from 'antd/es/date-picker/locale/cs_CZ';
+import 'dayjs/locale/cs.js';
 import type { CalendarProps } from 'antd';
 import { SelectInfo } from 'antd/es/calendar/generateCalendar';
 // types
 import { Dayjs } from 'dayjs';
 // style
-import '../style/style.less';
+import '../style/calendar.less';
 
 type Props = {
     onCalendarChange: (day: Dayjs) => void;
@@ -15,19 +17,23 @@ type Props = {
 }
 
 export const TheCalendar = (props: Props) => {
-    const wrapperStyle: React.CSSProperties = {
-        width: 300,
-        border: `1px solid #000`,
-        borderRadius: `10px`,
+    // disable satturday and sunday
+    const disabledDates = (current: Dayjs) => {
+        return current?.day() === 6 || current?.day() === 0;
     };
-
+    
     const onCalendarChange = (day: Dayjs) => {
         props.onCalendarChange(day);
     };
 
     return (
-        <div style={wrapperStyle}>
-            <Calendar defaultValue={props.date} fullscreen={false} onSelect={onCalendarChange} />
-        </div>
+        <DatePicker
+            className='calendar'
+            locale={locale} 
+            defaultValue={props.date}
+            format={'dddd - D.M. YYYY'}
+            onChange={onCalendarChange}
+            disabledDate={disabledDates}
+        />
     )
 }
