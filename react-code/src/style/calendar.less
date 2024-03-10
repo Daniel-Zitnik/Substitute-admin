@@ -3,10 +3,14 @@
 .disabled-dates() {
     background-color: rgba(0, 0, 0, 0.04);
 }
-
 .calendar {
-    width: 300px;
-    border: 1px solid @border-color;
+    margin: 10px 0;
+    width: 100%;
+    .date-picker {
+        display: block;
+        margin: 0 auto;
+        width: 288px;
+    }
 }
 
 .ant-picker-content {
@@ -21,5 +25,13 @@
     thead tr > th:nth-child(6),
     thead tr > th:nth-child(7) {
         .disabled-dates();
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .calendar {
+        background-color: #F5F8FF;
+        margin: 0;
+        padding: 10px 0;
     }
 }

@@ -9,6 +9,8 @@ import { ColumnFilterItem } from 'antd/es/table/interface';
 import { TheCalendar } from '../components/TheCalendar';
 import { SubstituteTable } from '../components/SubstituteTable';
 import { AddonTable } from '../components/AddonTable';
+// style
+import '../style/home.less'
 
 type Props = {}
 
@@ -34,17 +36,22 @@ type AddonApi = {
 
 export const Home = (props: Props) => {
     // get right date
-    const getDate = () => {
-        let selectDay = dayjs().day();
+    const getDate = () => { 
+        let selectDate;
+        const currentDay = dayjs().day();
         const currentHour = dayjs().hour();
     
-        currentHour >= 16 && selectDay ++;
-        // set to monday if it's saturday or sunday
-        if (selectDay == 0 || selectDay == 6) {
-            selectDay = 1;
+        if (currentDay == 5 && currentHour >= 16 || currentDay == 6 || currentDay == 7) {
+            // set to monday if it's saturday or sunday
+            selectDate = dayjs().startOf('week').add(1, 'week').day(1);
+        } else if (currentHour >= 16) {
+            // set to next day if it's after 4pm
+            selectDate = dayjs().add(1, 'day');
+        } else {
+            selectDate = dayjs();
         }
     
-        return dayjs().day(selectDay) as Dayjs;
+        return selectDate as Dayjs;
     }
 
     // data
@@ -131,10 +138,23 @@ export const Home = (props: Props) => {
 
     // template
     return (
-        <div>
-            <TheCalendar onCalendarChange={handleCalendarChange} date={date}/>
-            <SubstituteTable data={substituteData} teachers={teachers} classes={classes} loading={substituteTableLoading} />
-            <AddonTable data={addonData} loading={addonTableLoading} />
+        <div className='home'>
+            <TheCalendar
+                onCalendarChange={handleCalendarChange} 
+                date={date}
+            />
+                <div className="tables">
+                    <SubstituteTable 
+                        data={substituteData} 
+                        teachers={teachers} 
+                        classes={classes} 
+                        loading={substituteTableLoading} 
+                    />
+                    <AddonTable 
+                        data={addonData} 
+                        loading={addonTableLoading} 
+                    />
+                </div>
         </div>
     )
 }

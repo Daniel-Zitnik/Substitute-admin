@@ -17,20 +17,6 @@ type ApiData = {
 }
 
 export const Config = (props: Props) => {
-    // get right date
-    const getDate = () => {
-        let selectDay = dayjs().day();
-        const currentHour = dayjs().hour();
-    
-        currentHour >= 16 && selectDay ++;
-        // set to monday if it's saturday or sunday
-        if (selectDay == 0 || selectDay == 6) {
-            selectDay = 1;
-        }
-    
-        return dayjs().day(selectDay) as Dayjs;
-    }
-    
     // loading animation
     const [teachersTableLoading, setTeachersTableLoading] = useState<boolean>(true);
     const [classesTableLoading, setClassesTableLoading] = useState<boolean>(true);

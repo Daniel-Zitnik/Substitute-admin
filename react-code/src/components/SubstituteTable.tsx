@@ -1,12 +1,12 @@
 // react
 import React from 'react'
-import { Table } from 'antd';
+import { ConfigProvider, Table } from 'antd';
 // interface
 import type { TableColumnsType, TablePaginationConfig } from 'antd';
 import type { SubstituteDataType as DataType } from '../types/index';
 import { ColumnFilterItem, FilterValue, SortOrder, SorterResult } from 'antd/es/table/interface';
 // style
-import '../style/style.less';
+
 
 type Props = {
     data: DataType[];
@@ -50,6 +50,12 @@ export const SubstituteTable = (props: Props) => {
             localStorage.setItem( 'substituteTableFilters', JSON.stringify({ ...filters, lesson: sorter.order }) );
         }
     };
+    // change no data text
+    const customEmpty = () => (
+        <div style={{ textAlign: 'center' }}>
+            <p>Žádné suplování</p>
+        </div>
+    );
     // table structure
     const columns: TableColumnsType<DataType> = [
         {
@@ -102,6 +108,20 @@ export const SubstituteTable = (props: Props) => {
 
     // template
     return (
-        <Table dataSource={data} columns={columns} onChange={handleTableChange} loading={loading} pagination={false} rowClassName={(record: DataType) => record.highlighted == 1 ? 'highlited-row' : ''} />
+        <div className='substitute-table'>
+            <div className='table-wrapper'>
+                <ConfigProvider renderEmpty={customEmpty}>
+                    <Table
+                        dataSource={data} 
+                        columns={columns} 
+                        onChange={handleTableChange} 
+                        loading={loading} 
+                        pagination={false} 
+                        rowClassName={(record: DataType) => record.highlighted == 1 ? 'highlited-row' : ''}
+                        sticky={true}
+                    />
+                </ConfigProvider>
+            </div>
+        </div>
     )
 }

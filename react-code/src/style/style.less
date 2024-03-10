@@ -1,5 +1,11 @@
 @import 'variables';
 
+.App {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .highlited-row {
     td {
         background-color: @primary-color-light !important;
@@ -7,5 +13,32 @@
 
     .ant-table-cell-row-hover {
         background-color: darken(@primary-color-light, 3%) !important;
+    }
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #F1F1F1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #ddd;
+}
+
+@media only screen and (max-width: 720px) {
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #ddd;
     }
 }

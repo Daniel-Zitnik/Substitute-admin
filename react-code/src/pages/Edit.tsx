@@ -36,17 +36,22 @@ type AddonApi = {
 
 export const Edit = (props: Props) => {
     // get right date
-    const getDate = () => {
-        let selectDay = dayjs().day();
+    const getDate = () => { 
+        let selectDate;
+        const currentDay = dayjs().day();
         const currentHour = dayjs().hour();
     
-        currentHour >= 16 && selectDay ++;
-        // set to monday if it's saturday or sunday
-        if (selectDay == 0 || selectDay == 6) {
-            selectDay = 1;
+        if (currentDay == 5 && currentHour >= 16 || currentDay == 6 || currentDay == 7) {
+            // set to monday if it's saturday or sunday
+            selectDate = dayjs().startOf('week').add(1, 'week').day(1);
+        } else if (currentHour >= 16) {
+            // set to next day if it's after 4pm
+            selectDate = dayjs().add(1, 'day');
+        } else {
+            selectDate = dayjs();
         }
     
-        return dayjs().day(selectDay) as Dayjs;
+        return selectDate as Dayjs;
     }
 
     // data
@@ -92,7 +97,7 @@ export const Edit = (props: Props) => {
                     return 0;
                 });
 
-                let substitute: SelectType[] = [{ value: 'odpadá', label: 'odpadá' }, { value: 'oběd', label: 'oběd' }];
+                let substitute: SelectType[] = [{ value: 'odpadá', label: 'odpadá' }, { value: 'oběd', label: 'oběd' }, { value: 'samostatná práce', label: 'samostatná práce' }];
                 substitute.push(...responseTeachersJson.map(extractData));
 
                 setMissingsSelect (responseTeachersJson.map(extractData));

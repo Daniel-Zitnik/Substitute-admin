@@ -27,13 +27,15 @@ export const TheCalendar = (props: Props) => {
     };
 
     return (
-        <DatePicker
-            className='calendar'
-            locale={locale} 
-            defaultValue={props.date}
-            format={'dddd - D.M. YYYY'}
-            onChange={onCalendarChange}
-            disabledDate={disabledDates}
-        />
+        <div className='calendar'>
+            <DatePicker
+                className='date-picker'
+                locale={locale} 
+                defaultValue={props.date}
+                format={'dddd - D.M. YYYY'}
+                onChange={onCalendarChange}
+                disabledDate={disabledDates}
+            />
+        </div>
     )
 }

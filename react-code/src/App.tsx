@@ -8,10 +8,14 @@ import { Edit } from './pages/Edit';
 // components
 import { TheNavigation } from './components/TheNavigation';
 import { ConfigProvider } from 'antd';
+// style
+import './style/style.less';
+import './style/app.less';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    // get user logged in status
     useEffect(() => {
         const checkLoginStatus = async () => {
           try {
@@ -25,17 +29,26 @@ function App() {
       
         checkLoginStatus();
     }, []);
+
+    // change no data text
+    const customEmpty = () => (
+        <div style={{ textAlign: 'center' }}>
+            <p>Žádná data</p>
+        </div>
+    );
     
     return (
         <div className="App">
             <ConfigProvider
                 theme={{
                     token: {
-                        colorPrimary: '#FF7E00',
-                        colorLink: '#003A53',
+                        colorPrimary: '#F4801A',
+                        colorLink: '#C34600',
                         borderRadius: 12,
-                    }
+                        colorTextBase: '#111',
+                    },
                 }}
+                renderEmpty={customEmpty}
             >
                 <Router>
                     <header>
@@ -51,7 +64,7 @@ function App() {
                     </main>
 
                     <footer>
-                        {/* <p>© 2023 - 2024 Daniel Žitník</p> */}
+                        <p>© 2023 - 2024 Daniel Žitník</p>
                     </footer>
                 </Router>
             </ConfigProvider>

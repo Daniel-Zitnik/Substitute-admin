@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+// style
+import '../style/app.less';
 
 type Props = {
     isLoggedIn: boolean;
@@ -10,17 +12,17 @@ export const TheNavigation = (props: Props) => {
 
     return (
         <nav>                               
-            <h1><Link to="/supl/www/">Suplování</Link></h1>
+            <h1><Link to="/supl/www/">SUPLOVÁNÍ</Link></h1>
 
-            {isLoggedIn ? <div>
-                <Link to="/supl/www/dashboard">Dashboard</Link>
-                <Link to="/supl/www/config">Konfigurace</Link>
+            {isLoggedIn ? <ul>
+                <li><Link to="/supl/www/dashboard">Dashboard</Link></li>
+                <li><Link to="/supl/www/config">Konfigurace</Link></li>
 
-                <a href="/supl/www/sign/out">Odhlásit se</a>
-            </div> :
-            <div>
-                <a href="/supl/www/sign/in">prihlasit se</a>
-            </div>}
+                <li><a href="/supl/www/sign/out">Odhlásit se</a></li>
+            </ul> :
+            <ul>
+                <li><a href="/supl/www/sign/in">Editovat</a></li>
+            </ul>}
         </nav>
     )
 }

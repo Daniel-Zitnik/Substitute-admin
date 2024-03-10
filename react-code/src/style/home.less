@@ -1,0 +1,38 @@
+.home {
+    .tables {
+        overflow: auto;
+        max-height: calc(100vh - 200px);
+        margin: 10px 0;
+    }
+
+    .color {
+        background-color: aqua;
+        border: 1px solid black;
+        height: 400px;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .home {
+        height: 100%;
+
+        .calendar {
+            background-color: #F5F8FF;
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        .tables {
+            border-top: 1px solid #F0F0F0;
+            max-height: calc(100vh - 152px);
+            margin: 0;
+
+            .substitute-table {
+                overflow: auto;
+                .table-wrapper {
+                    width: 720px;
+                }
+            }
+        }
+    }
+}

@@ -1,6 +1,6 @@
 // react
 import React from 'react'
-import { Table } from 'antd';
+import { ConfigProvider, Table } from 'antd';
 // interface
 import type { TableColumnsType } from 'antd';
 import type { AddonDataType as DataType } from '../types/index';
@@ -20,6 +20,22 @@ export const AddonTable = (props: Props) => {
     data.forEach (a => a.type == 2 && classData.push(a));
     const watchData: DataType[] = [];
     data.forEach (a => a.type == 3 && watchData.push(a));
+    // chnage no data text
+    const customEmptyNote = () => (
+        <div style={{ textAlign: 'center' }}>
+            <p>Žádné poznámky</p>
+        </div>
+    );
+    const customEmptyClass = () => (
+        <div style={{ textAlign: 'center' }}>
+            <p>Žádné náhradní učebny</p>
+        </div>
+    );
+    const customEmptyWatch = () => (
+        <div style={{ textAlign: 'center' }}>
+            <p>Žádné suplování dohledů</p>
+        </div>
+    );
     // table structure
     const noteColumns: TableColumnsType<DataType> = [
         {
@@ -47,10 +63,16 @@ export const AddonTable = (props: Props) => {
 
     // template
     return (
-        <div>
-            <Table dataSource={noteData} columns={noteColumns} loading={loading} pagination={false} />
-            <Table dataSource={classData} columns={classColumns} loading={loading} pagination={false} />
-            <Table dataSource={watchData} columns={watchColumns} loading={loading} pagination={false} />
+        <div className='addon-table'>
+            <ConfigProvider renderEmpty={customEmptyNote}>
+                <Table dataSource={noteData} columns={noteColumns} loading={loading} pagination={false} sticky={true} />
+            </ConfigProvider>
+            <ConfigProvider renderEmpty={customEmptyClass}>
+                <Table dataSource={classData} columns={classColumns} loading={loading} pagination={false} sticky={true} />
+            </ConfigProvider>
+            <ConfigProvider renderEmpty={customEmptyWatch}>
+                <Table dataSource={watchData} columns={watchColumns} loading={loading} pagination={false} sticky={true} />
+            </ConfigProvider>
         </div>
     )
 }
