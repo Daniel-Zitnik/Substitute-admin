@@ -8,6 +8,8 @@ import { Dayjs } from 'dayjs';
 // componets
 import { ConfigTable } from '../components/ConfigTable';
 import { ConfigForm } from '../components/ConfigForm';
+// style
+import '../style/dashboard.less';
 
 type Props = {}
 
@@ -30,6 +32,21 @@ export const Config = (props: Props) => {
 
     // load data
     useEffect(() => {
+        // get user logged in status
+        const checkLoginStatus = async () => {
+            try {
+                const response = await fetch('/supl/www/api/getLoginStatus');
+                const data = await response.json();
+                if (data.isLoggedIn) {
+                    fetchAll();
+                } else {
+                    window.location.replace('http://localhost:8080/supl/www/sign/in');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+        
         const fetchAll = async () => {
             try {
                 // fetch tables data
@@ -40,7 +57,7 @@ export const Config = (props: Props) => {
             }
         };
 
-        fetchAll();
+        checkLoginStatus();
     }, []);
 
     const fetchData = async (url: string) => {
@@ -129,12 +146,54 @@ export const Config = (props: Props) => {
 
     // template
     return (
-        <div>
-            {formOpen != 'no' && <ConfigForm which={formOpen} data={selectedItem} onClose={handleFormClose} onSave={handleSave} loading={loadingUpdate} />}
-            <ConfigTable which='teachers' data={teachers} loading={teachersTableLoading} onEdit={handleEdit} onDelete={handleDelete} />
-            <Button type='primary' onClick={() => setFormOpen('teachers')}>Přidat</Button>
-            <ConfigTable which='classes' data={classes} loading={classesTableLoading} onEdit={handleEdit} onDelete={handleDelete} />
-            <Button type='primary' onClick={() => setFormOpen('classes')}>Přidat</Button>
+        <div className='config'>
+            {formOpen != 'no' && <ConfigForm 
+                which={formOpen} 
+                data={selectedItem} 
+                onClose={handleFormClose} 
+                onSave={handleSave} 
+                loading={loadingUpdate} 
+            />}
+
+            <section className="teachers">
+                <div className="table-header">
+                    <h2>Učitelé</h2>
+                    <Button
+                        className='btn'
+                        type='primary' 
+                        onClick={() => setFormOpen('teachers')}
+                    >
+                        Přidat
+                    </Button>
+                </div>
+                <ConfigTable 
+                    which='teachers' 
+                    data={teachers} 
+                    loading={teachersTableLoading} 
+                    onEdit={handleEdit} 
+                    onDelete={handleDelete} 
+                />
+            </section>
+
+            <section className="classes">
+                <div className="table-header">
+                    <h2>Třídy</h2>
+                    <Button
+                        className='btn'
+                        type='primary' 
+                        onClick={() => setFormOpen('classes')}
+                    >
+                        Přidat
+                    </Button>
+                </div>
+                <ConfigTable 
+                    which='classes' 
+                    data={classes} 
+                    loading={classesTableLoading} 
+                    onEdit={handleEdit} 
+                    onDelete={handleDelete} 
+                />
+            </section>
         </div>
     )
 }

@@ -143,18 +143,25 @@ export const Home = (props: Props) => {
                 onCalendarChange={handleCalendarChange} 
                 date={date}
             />
-                <div className="tables">
-                    <SubstituteTable 
-                        data={substituteData} 
-                        teachers={teachers} 
-                        classes={classes} 
-                        loading={substituteTableLoading} 
-                    />
-                    <AddonTable 
-                        data={addonData} 
-                        loading={addonTableLoading} 
-                    />
+            <div className="tables">
+                <div className='table-header top'>
+                    <h2>Suplování</h2>
                 </div>
+                <SubstituteTable
+                    data={substituteData}
+                    teachers={teachers}
+                    classes={classes}
+                    loading={substituteTableLoading}
+                />
+                
+                <div className='table-header'>
+                    <h2>Poznámky</h2>
+                </div>
+                <AddonTable
+                    data={addonData}
+                    loading={addonTableLoading}
+                />
+            </div>
         </div>
     )
 }

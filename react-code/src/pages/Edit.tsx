@@ -11,6 +11,8 @@ import { SubstituteEditTable } from '../components/SubstituteEditTable';
 import { SubstituteEditForm } from '../components/SubstituteEditForm';
 import { AddonEditTable } from '../components/AddonEditTable';
 import { AddonEditForm } from '../components/AddonEditForm';
+// style
+import '../style/dashboard.less';
 
 type Props = {}
 
@@ -77,6 +79,22 @@ export const Edit = (props: Props) => {
 
     // load data
     useEffect(() => {
+        // get user logged in status
+        const checkLoginStatus = async () => {
+            try {
+                const response = await fetch('/supl/www/api/getLoginStatus');
+                const data = await response.json();
+                if (data.isLoggedIn) {
+                    fetchAll();
+                } else {
+                    window.location.replace('http://localhost:8080/supl/www/sign/in');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        // fetch data
         const fetchAll = async () => {
             try {
                 // fetch teachers & classes
@@ -111,7 +129,7 @@ export const Edit = (props: Props) => {
             }
         };
 
-        fetchAll();
+        checkLoginStatus();
     }, []);
 
     const fetchData = async (url: string) => {
@@ -244,14 +262,60 @@ export const Edit = (props: Props) => {
 
     // template
     return (
-        <div>
-            <TheCalendar onCalendarChange={handleCalendarChange} date={date}/>
-            {substituteFormOpen && <SubstituteEditForm data={selectedSubstituteItem} onClose={handleSubstituteFormClose} onSave={handleSave} missings={missingsSelect} classes={classesSelect} substitutes={substitutesSelect} loading={loadingUpdate} />}
-            <SubstituteEditTable data={substituteData} loading={substituteTableLoading} onEdit={handleEditSubstitute} onDelete={handleDelete} />
-            <Button type='primary' onClick={() => setSubstituteFormOpen(true)}>Přidat</Button>
-            {addonFormOpen && <AddonEditForm data={selectedAddonItem} onClose={handleAddonFormClose} onSave={handleSave} loading={loadingUpdate} />}
-            <AddonEditTable data={addonData} loading={substituteTableLoading} onEdit={handleEditAddon} onDelete={handleDelete} />
-            <Button type='primary' onClick={() => setAddonFormOpen(true)}>Přidat</Button>
+        <div className='edit'>
+            <TheCalendar 
+                onCalendarChange={handleCalendarChange} 
+                date={date}
+            />
+
+            {substituteFormOpen && <SubstituteEditForm
+                data={selectedSubstituteItem} 
+                onClose={handleSubstituteFormClose} 
+                onSave={handleSave} 
+                missings={missingsSelect} 
+                classes={classesSelect} 
+                substitutes={substitutesSelect} 
+                loading={loadingUpdate} 
+            />}
+            <div className='table-header top'>
+                <h2>Suplování</h2>
+                <Button 
+                    className='btn' 
+                    type='primary' 
+                    onClick={() => setSubstituteFormOpen(true)}
+                >
+                    Přidat
+                </Button>
+            </div>
+            <SubstituteEditTable 
+                data={substituteData} 
+                loading={substituteTableLoading} 
+                onEdit={handleEditSubstitute} 
+                onDelete={handleDelete} 
+            />
+
+            {addonFormOpen && <AddonEditForm 
+                data={selectedAddonItem} 
+                onClose={handleAddonFormClose} 
+                onSave={handleSave} 
+                loading={loadingUpdate} 
+            />}
+            <div className='table-header'>
+                <h2>Poznámky</h2>
+                <Button 
+                    className='btn' 
+                    type='primary' 
+                    onClick={() => setAddonFormOpen(true)}
+                >
+                    Přidat
+                </Button>
+            </div>
+            <AddonEditTable 
+                data={addonData} 
+                loading={addonTableLoading} 
+                onEdit={handleEditAddon} 
+                onDelete={handleDelete} 
+            />
         </div>
     )
 }

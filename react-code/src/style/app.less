@@ -45,16 +45,17 @@ header {
             }
         }
 
-        // .active:hover {
-        //     color: $dark-gray;
-        //     background: $light-green;
-        // }
+        .admin-nav li {
+            padding: 0 20px;
 
-        // .active {
-        //     background: $green;
-        //     color: $dark-gray;
-        //     border-radius: 5px;
-        // }
+            &:not(:last-child) {
+                border-right: @primary-color solid 1px;
+            }
+
+            &:last-child {
+                padding-right: 0;
+            }
+        }
     }
 }
 

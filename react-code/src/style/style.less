@@ -8,11 +8,11 @@
 
 .highlited-row {
     td {
-        background-color: @primary-color-light !important;
+        background-color: #fffdaf !important;
     }
 
     .ant-table-cell-row-hover {
-        background-color: darken(@primary-color-light, 3%) !important;
+        background-color: darken(#fffdaf, 7%) !important;
     }
 }
 
@@ -41,4 +41,11 @@
     ::-webkit-scrollbar-thumb {
         background: #ddd;
     }
+}
+
+::selection,
+input::selection {
+	background: @primary-color;
+	color: #fff;
+	text-shadow: none;
 }

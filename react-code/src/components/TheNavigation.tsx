@@ -14,8 +14,8 @@ export const TheNavigation = (props: Props) => {
         <nav>                               
             <h1><Link to="/supl/www/">SUPLOVÁNÍ</Link></h1>
 
-            {isLoggedIn ? <ul>
-                <li><Link to="/supl/www/dashboard">Dashboard</Link></li>
+            {isLoggedIn ? <ul className='admin-nav'>
+                <li><Link to="/supl/www/dashboard">Editace</Link></li>
                 <li><Link to="/supl/www/config">Konfigurace</Link></li>
 
                 <li><a href="/supl/www/sign/out">Odhlásit se</a></li>

@@ -35,6 +35,7 @@ export const TheCalendar = (props: Props) => {
                 format={'dddd - D.M. YYYY'}
                 onChange={onCalendarChange}
                 disabledDate={disabledDates}
+                allowClear={false}
             />
         </div>
     )

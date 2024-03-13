@@ -41,7 +41,7 @@ export const AddonEditForm = (props: Props) => {
     return (
         <div>
             <Modal
-                title={action == 'create' ? 'Přidat suplování' : 'Editace suplování'}
+                title={action == 'create' ? 'Přidat poznámky' : 'Editace poznámek'}
                 open={true}
                 width={600}
                 destroyOnClose

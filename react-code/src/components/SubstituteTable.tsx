@@ -103,6 +103,7 @@ export const SubstituteTable = (props: Props) => {
             title: 'Poznámka',
             dataIndex: 'note',
             key: 'note',
+            width: '22%',
         },
     ];
 
