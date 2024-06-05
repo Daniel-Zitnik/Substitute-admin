@@ -71,6 +71,12 @@ export const SubstituteEditTable = (props: Props) => {
 
     // template
     return (
-        <Table dataSource={data} columns={columns} loading={loading} pagination={false} rowClassName={(record: DataType) => record.highlighted == 1 ? 'highlited-row' : ''} />
+        <Table 
+            dataSource={data}
+            columns={columns}
+            loading={loading}
+            pagination={false}
+            rowClassName={(record: DataType) => record.highlighted == 1 ? 'highlited-row' : ''}
+        />
     )
 }

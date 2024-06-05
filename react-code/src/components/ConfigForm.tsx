@@ -1,6 +1,6 @@
 // react
 import React from 'react';
-import { Button, Form, Input, Modal, Select } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 // interface
 import type { NameType } from '../types/index';
 

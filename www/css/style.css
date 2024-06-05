@@ -4,3 +4,10 @@ body {
     font-family: "Roboto", sans-serif;
     background-color: #F5F8FF;
 }
+
+::selection,
+input::selection {
+	background: #F4801A;
+	color: #fff;
+	text-shadow: none;
+}

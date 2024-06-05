@@ -10,11 +10,7 @@ h1 {
     font-size: 24px;
     text-align: center;
     margin-top: 0;
-}
-
-label {
-    color: #000;
-    font-weight: 500;
+    text-transform: uppercase;
 }
 
 main {
@@ -23,8 +19,14 @@ main {
     margin: 20px auto;
     background-color: #fff;
     border-radius: 12px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
     font-size: 14px;
+}
+
+.error {
+    list-style: none;
+    padding: 0;
+    color: #FF4D4F;
 }
 
 form {
@@ -38,6 +40,11 @@ tr {
 
 td {
     padding: 6px;
+}
+
+label {
+    color: #000;
+    font-weight: 500;
 }
 
 input {

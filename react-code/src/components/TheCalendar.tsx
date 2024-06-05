@@ -1,11 +1,8 @@
 // react
-import dayjs from 'dayjs';
 import React from 'react';
-import { Calendar, DatePicker } from 'antd';
+import { DatePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/cs_CZ';
 import 'dayjs/locale/cs.js';
-import type { CalendarProps } from 'antd';
-import { SelectInfo } from 'antd/es/calendar/generateCalendar';
 // types
 import { Dayjs } from 'dayjs';
 // style

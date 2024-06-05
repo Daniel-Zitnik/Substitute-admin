@@ -68,6 +68,8 @@ export const Home = (props: Props) => {
 
     // load data
     useEffect(() => {
+        document.title = 'Suplování';
+
         const fetchAll = async () => {
             try {
                 // fetch teachers & classes
@@ -145,7 +147,7 @@ export const Home = (props: Props) => {
             />
             <div className="tables">
                 <div className='table-header top'>
-                    <h2>Suplování</h2>
+                    <h2>Suplovánís</h2>
                 </div>
                 <SubstituteTable
                     data={substituteData}

@@ -5,8 +5,6 @@ import { ConfigProvider, Table } from 'antd';
 import type { TableColumnsType, TablePaginationConfig } from 'antd';
 import type { SubstituteDataType as DataType } from '../types/index';
 import { ColumnFilterItem, FilterValue, SortOrder, SorterResult } from 'antd/es/table/interface';
-// style
-
 
 type Props = {
     data: DataType[];
@@ -29,6 +27,7 @@ export const SubstituteTable = (props: Props) => {
         if (gotData !== null) {
             return JSON.parse(gotData) as TableFilters;
         } else {
+            // create data
             const filtersObject = {
                 class: null,
                 missing: null,

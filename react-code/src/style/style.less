@@ -6,6 +6,7 @@
     flex-direction: column;
 }
 
+// highlited row in substitute table
 .highlited-row {
     td {
         background-color: #fffdaf !important;
@@ -16,6 +17,12 @@
     }
 }
 
+// removes table border radius
+.ant-table-wrapper {
+    background-color: #FAFAFA;
+}
+
+// scrollbar
 ::-webkit-scrollbar {
 	width: 10px;
 }
@@ -41,11 +48,4 @@
     ::-webkit-scrollbar-thumb {
         background: #ddd;
     }
-}
-
-::selection,
-input::selection {
-	background: @primary-color;
-	color: #fff;
-	text-shadow: none;
 }

@@ -10,6 +10,7 @@ use Nette\Application\UI\Form;
 
 final class SignPresenter extends Nette\Application\UI\Presenter
 {
+    // sign in form
 	protected function createComponentSignInForm(): Form
 	{
 		$form = new Form;
@@ -27,6 +28,7 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 		return $form;
 	}
 
+    // on form submit
 	private function signInFormSucceeded(Form $form, \stdClass $data): void
     {
         try {
@@ -38,6 +40,7 @@ final class SignPresenter extends Nette\Application\UI\Presenter
         }
     }
 
+    // sign out
     public function actionOut(): void
     {
         $this->getUser()->logout();

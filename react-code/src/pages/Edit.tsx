@@ -79,6 +79,7 @@ export const Edit = (props: Props) => {
 
     // load data
     useEffect(() => {
+        document.title = 'Editace | Suplování';
         // get user logged in status
         const checkLoginStatus = async () => {
             try {
@@ -268,54 +269,56 @@ export const Edit = (props: Props) => {
                 date={date}
             />
 
-            {substituteFormOpen && <SubstituteEditForm
-                data={selectedSubstituteItem} 
-                onClose={handleSubstituteFormClose} 
-                onSave={handleSave} 
-                missings={missingsSelect} 
-                classes={classesSelect} 
-                substitutes={substitutesSelect} 
-                loading={loadingUpdate} 
-            />}
-            <div className='table-header top'>
-                <h2>Suplování</h2>
-                <Button 
-                    className='btn' 
-                    type='primary' 
-                    onClick={() => setSubstituteFormOpen(true)}
-                >
-                    Přidat
-                </Button>
-            </div>
-            <SubstituteEditTable 
-                data={substituteData} 
-                loading={substituteTableLoading} 
-                onEdit={handleEditSubstitute} 
-                onDelete={handleDelete} 
-            />
+            <div className="tables">
+                {substituteFormOpen && <SubstituteEditForm
+                    data={selectedSubstituteItem} 
+                    onClose={handleSubstituteFormClose} 
+                    onSave={handleSave} 
+                    missings={missingsSelect} 
+                    classes={classesSelect} 
+                    substitutes={substitutesSelect} 
+                    loading={loadingUpdate} 
+                />}
+                <div className='table-header top'>
+                    <h2>Suplování</h2>
+                    <Button 
+                        className='btn' 
+                        type='primary' 
+                        onClick={() => setSubstituteFormOpen(true)}
+                    >
+                        Přidat
+                    </Button>
+                </div>
+                <SubstituteEditTable 
+                    data={substituteData} 
+                    loading={substituteTableLoading} 
+                    onEdit={handleEditSubstitute} 
+                    onDelete={handleDelete} 
+                />
 
-            {addonFormOpen && <AddonEditForm 
-                data={selectedAddonItem} 
-                onClose={handleAddonFormClose} 
-                onSave={handleSave} 
-                loading={loadingUpdate} 
-            />}
-            <div className='table-header'>
-                <h2>Poznámky</h2>
-                <Button 
-                    className='btn' 
-                    type='primary' 
-                    onClick={() => setAddonFormOpen(true)}
-                >
-                    Přidat
-                </Button>
+                {addonFormOpen && <AddonEditForm 
+                    data={selectedAddonItem} 
+                    onClose={handleAddonFormClose} 
+                    onSave={handleSave} 
+                    loading={loadingUpdate} 
+                />}
+                <div className='table-header'>
+                    <h2>Poznámky</h2>
+                    <Button 
+                        className='btn' 
+                        type='primary' 
+                        onClick={() => setAddonFormOpen(true)}
+                    >
+                        Přidat
+                    </Button>
+                </div>
+                <AddonEditTable 
+                    data={addonData} 
+                    loading={addonTableLoading} 
+                    onEdit={handleEditAddon} 
+                    onDelete={handleDelete} 
+                />
             </div>
-            <AddonEditTable 
-                data={addonData} 
-                loading={addonTableLoading} 
-                onEdit={handleEditAddon} 
-                onDelete={handleDelete} 
-            />
         </div>
     )
 }

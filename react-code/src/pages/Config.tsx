@@ -1,10 +1,8 @@
 // react
 import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
 import { Button, Modal } from 'antd';
 // interface
-import type { NameType, SelectType } from '../types/index';
-import { Dayjs } from 'dayjs';
+import type { NameType } from '../types/index';
 // componets
 import { ConfigTable } from '../components/ConfigTable';
 import { ConfigForm } from '../components/ConfigForm';
@@ -32,6 +30,7 @@ export const Config = (props: Props) => {
 
     // load data
     useEffect(() => {
+        document.title = 'Konfigurace | Suplování';
         // get user logged in status
         const checkLoginStatus = async () => {
             try {

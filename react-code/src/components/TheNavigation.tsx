@@ -1,3 +1,4 @@
+// react
 import React from 'react'
 import { Link } from 'react-router-dom';
 // style
@@ -12,7 +13,7 @@ export const TheNavigation = (props: Props) => {
 
     return (
         <nav>                               
-            <h1><Link to="/supl/www/">SUPLOVÁNÍ</Link></h1>
+            <h1><Link to="/supl/www/">Suplování</Link></h1>
 
             {isLoggedIn ? <ul className='admin-nav'>
                 <li><Link to="/supl/www/dashboard">Editace</Link></li>

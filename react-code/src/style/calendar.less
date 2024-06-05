@@ -1,8 +1,5 @@
 @import 'variables';
 
-.disabled-dates() {
-    background-color: rgba(0, 0, 0, 0.04);
-}
 .calendar {
     margin: 10px 0;
     width: 100%;
@@ -11,8 +8,18 @@
         margin: 0 auto;
         width: 288px;
     }
+
+    // phones
+    @media only screen and (max-width: 720px) {
+        & {
+            background-color: #F5F8FF;
+            margin: 0;
+            padding: 10px 0;
+        }
+    }
 }
 
+// makes whole saturday and sunday columns gray
 .ant-picker-content {
     .ant-picker-cell-disabled {
         .disabled-dates();
@@ -28,10 +35,6 @@
     }
 }
 
-@media only screen and (max-width: 720px) {
-    .calendar {
-        background-color: #F5F8FF;
-        margin: 0;
-        padding: 10px 0;
-    }
+.disabled-dates() {
+    background-color: rgba(0, 0, 0, 0.04);
 }

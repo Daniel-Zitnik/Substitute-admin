@@ -9,7 +9,6 @@ import { Edit } from './pages/Edit';
 import { TheNavigation } from './components/TheNavigation';
 import { ConfigProvider } from 'antd';
 // style
-import './style/style.less';
 import './style/app.less';
 
 function App() {
