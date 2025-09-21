@@ -61,13 +61,17 @@ nav {
     }
 }
 
+html, body, #root, .App {
+    height: 100%;
+}
+
 main {
     background-color: #fff;
     width: 100%;
     max-width: 1280px;
     border-radius: 20px;
     margin: 20px auto 0;
-    height: calc(100vh - 131px);
+    height: calc(100% - 131px);
     box-shadow: 2px 2px 8px rgba(#000, 0.15);
 }
 
@@ -90,7 +94,7 @@ footer {
     #root .App main {
         border-radius: 0;
         margin: 0;
-        height: calc(100vh - 100px);
+        height: calc(100% - 96px);
         box-shadow: none;
         width: 100%;
     }
@@ -98,6 +102,10 @@ footer {
     footer {
         border-top: 1px solid #F0F0F0;
         font-size: 14px;
+
+        p {
+            margin: 12px 0;
+        }
     }
 }
 

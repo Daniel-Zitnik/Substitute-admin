@@ -83,12 +83,12 @@ export const Edit = (props: Props) => {
         // get user logged in status
         const checkLoginStatus = async () => {
             try {
-                const response = await fetch('/supl/www/api/getLoginStatus');
+                const response = await fetch(process.env.BASE_URL + 'api/getLoginStatus');
                 const data = await response.json();
                 if (data.isLoggedIn) {
                     fetchAll();
                 } else {
-                    window.location.replace('http://localhost:8080/supl/www/sign/in');
+                    window.location.replace(process.env.BASE_URL + 'sign/in');
                 }
             } catch (e) {
                 console.error(e);
@@ -99,8 +99,8 @@ export const Edit = (props: Props) => {
         const fetchAll = async () => {
             try {
                 // fetch teachers & classes
-                const responseTeachers = await fetch('/supl/www/api/getTeachers');
-                const responseClasses = await fetch('/supl/www/api/getClasses');
+                const responseTeachers = await fetch(process.env.BASE_URL + 'api/getTeachers');
+                const responseClasses = await fetch(process.env.BASE_URL + 'api/getClasses');
 
                 let responseTeachersJson: NameType[] = await responseTeachers.json();
                 let responseClassesJson: NameType[] = await responseClasses.json();
@@ -135,7 +135,7 @@ export const Edit = (props: Props) => {
 
     const fetchData = async (url: string) => {
         // fetch data with correct date   
-        const response = await fetch(`/supl/www/api/${url}`, {
+        const response = await fetch(`${process.env.BASE_URL}api/${url}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ export const Edit = (props: Props) => {
 
         try {
             // post new data
-            const response = await fetch(`/supl/www/api/${which == 'substitute' ? 'setSubstitute' : 'setAddon'}`, {
+            const response = await fetch(`${process.env.BASE_URL}api/${which == 'substitute' ? 'setSubstitute' : 'setAddon'}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -229,7 +229,7 @@ export const Edit = (props: Props) => {
 
                 try {
                     // post item id
-                    const response = await fetch(`/supl/www/api/${which == 'substitute' ? 'setSubstitute' : 'setAddon'}`, {
+                    const response = await fetch(`${process.env.BASE_URL}api/${which == 'substitute' ? 'setSubstitute' : 'setAddon'}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

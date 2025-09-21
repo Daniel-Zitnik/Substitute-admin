@@ -8,15 +8,6 @@
         margin: 0 auto;
         width: 288px;
     }
-
-    // phones
-    @media only screen and (max-width: 720px) {
-        & {
-            background-color: #F5F8FF;
-            margin: 0;
-            padding: 10px 0;
-        }
-    }
 }
 
 // makes whole saturday and sunday columns gray
@@ -37,4 +28,27 @@
 
 .disabled-dates() {
     background-color: rgba(0, 0, 0, 0.04);
+}
+
+// phones
+@media only screen and (max-width: 720px) {
+    .calendar {
+        background-color: #F5F8FF;
+        margin: 0;
+        padding: 10px 0;
+        .date-picker {
+            margin: 0 10px;
+            width: calc(100% - 22px);
+            padding: 6px 14px;
+        }
+    }
+
+    // magnify font size
+    .ant-picker-dropdown {
+        font-size: 16px;
+    }
+
+    .ant-picker-input input {
+        font-size: 16px !important;
+    }
 }

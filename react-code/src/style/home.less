@@ -1,23 +1,16 @@
 @import 'variables';
 
 .home {
+    height: 100%;
+
     .tables {
         overflow: auto;
-        max-height: calc(100vh - 200px);
+        max-height: calc(100% - 71.14px);
         margin: 10px 0 15px;
         text-align: center;
     
         .top {
             border-top: 1px solid @light-border-color;
-        }
-    
-        // phones
-        @media only screen and (max-width: 720px) {
-            & {
-                border-top: 1px solid #F0F0F0;
-                max-height: calc(100vh - 152px);
-                margin: 0;
-            }
         }
     }
     
@@ -38,13 +31,26 @@
 // phones
 @media only screen and (max-width: 720px) {
     .home {
-        height: 100%;
+        .tables {
+            border-top: 1px solid #F0F0F0;
+            max-height: calc(100% - 60.14px);
+            margin: 0;
+        }
 
         .substitute-table {
             overflow: auto;
             .table-wrapper {
                 width: 750px;
             }
+        }
+    }
+
+    // magnify filter dropdown
+    .ant-table-filter-dropdown {
+        transform: scale(1.2);
+        transform-origin: top right;
+        .ant-btn-sm {
+            transform: scale(1.1);
         }
     }
 }

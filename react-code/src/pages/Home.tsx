@@ -73,8 +73,8 @@ export const Home = (props: Props) => {
         const fetchAll = async () => {
             try {
                 // fetch teachers & classes
-                const responseTeachers = await fetch('/supl/www/api/getTeachers');
-                const responseClasses = await fetch('/supl/www/api/getClasses');
+                const responseTeachers = await fetch(process.env.BASE_URL + 'api/getTeachers');
+                const responseClasses = await fetch(process.env.BASE_URL + 'api/getClasses');
 
                 let responseTeachersJson: NameType[] = await responseTeachers.json();
                 let responseClassesJson: NameType[] = await responseClasses.json();
@@ -109,7 +109,7 @@ export const Home = (props: Props) => {
 
     const fetchData = async (url: string) => {
         // fetch data with correct date   
-        const response = await fetch(`/supl/www/api/${url}`, {
+        const response = await fetch(`${process.env.BASE_URL}api/${url}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ export const Home = (props: Props) => {
             />
             <div className="tables">
                 <div className='table-header top'>
-                    <h2>Suplovánís</h2>
+                    <h2>Suplování</h2>
                 </div>
                 <SubstituteTable
                     data={substituteData}

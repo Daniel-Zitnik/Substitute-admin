@@ -34,12 +34,12 @@ export const Config = (props: Props) => {
         // get user logged in status
         const checkLoginStatus = async () => {
             try {
-                const response = await fetch('/supl/www/api/getLoginStatus');
+                const response = await fetch(process.env.BASE_URL + 'api/getLoginStatus');
                 const data = await response.json();
                 if (data.isLoggedIn) {
                     fetchAll();
                 } else {
-                    window.location.replace('http://localhost:8080/supl/www/sign/in');
+                    window.location.replace(process.env.BASE_URL + 'sign/in');
                 }
             } catch (e) {
                 console.error(e);
@@ -61,7 +61,7 @@ export const Config = (props: Props) => {
 
     const fetchData = async (url: string) => {
         // fetch data with correct date   
-        const response = await fetch(`/supl/www/api/${url}`);
+        const response = await fetch(`${process.env.BASE_URL}api/${url}`);
         const responseJson: ApiData[] = await response.json();
         // extract & set data
         if (url == 'getTeachers') {
@@ -83,7 +83,7 @@ export const Config = (props: Props) => {
 
         try {
             // post new data
-            const response = await fetch(`/supl/www/api/${which == 'teachers' ? 'setTeacher' : 'setClass'}`, {
+            const response = await fetch(`${process.env.BASE_URL}api/${which == 'teachers' ? 'setTeacher' : 'setClass'}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ export const Config = (props: Props) => {
             onOk: async () => {
                 try {
                     // post item id
-                    const response = await fetch(`/supl/www/api/${which == 'teachers' ? 'setTeacher' : 'setClass'}`, {
+                    const response = await fetch(`${process.env.BASE_URL}api/${which == 'teachers' ? 'setTeacher' : 'setClass'}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

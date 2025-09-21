@@ -18,7 +18,7 @@ function App() {
     useEffect(() => {
         const checkLoginStatus = async () => {
           try {
-                const response = await fetch('/supl/www/api/getLoginStatus');
+                const response = await fetch(process.env.BASE_URL + 'api/getLoginStatus');
                 const data = await response.json();
                 setIsLoggedIn(data.isLoggedIn);
             } catch (e) {
@@ -46,6 +46,13 @@ function App() {
                         borderRadius: 12,
                         colorTextBase: '#111',
                     },
+                    components: {
+                        DatePicker: {
+                            cellWidth: window.screen.width <= 720 ? (window.screen.width - 60) / 6.944 : 36,
+                            cellHeight: window.screen.width <= 720 ? (window.screen.width - 60) / 10.416 : 24,
+                            inputFontSize: 50,
+                        },
+                    },
                 }}
                 renderEmpty={customEmpty}
             >
@@ -56,14 +63,14 @@ function App() {
 
                     <main>
                         <Routes>
-                            <Route path='/supl/www/config' element={<Config />} />
-                            <Route path='/supl/www/dashboard' element={<Edit />} />
-                            <Route path='/supl/www/' element={<Home />} />
+                            <Route path={process.env.BASE_URL + 'config'} element={<Config />} />
+                            <Route path={process.env.BASE_URL + 'dashboard'} element={<Edit />} />
+                            <Route path={process.env.BASE_URL} element={<Home />} />
                         </Routes>
                     </main>
 
                     <footer>
-                        <p>© 2023 - 2024 Daniel Žitník</p>
+                        <p>© 2024 Daniel Žitník</p>
                     </footer>
                 </Router>
             </ConfigProvider>

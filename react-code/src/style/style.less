@@ -1,7 +1,7 @@
 @import 'variables';
 
 .App {
-    min-height: 100vh;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -32,13 +32,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #F1F1F1;
+	background: #eee;
 }
 
 ::-webkit-scrollbar-thumb:hover {
 	background: #ddd;
 }
 
+// phones
 @media only screen and (max-width: 720px) {
     ::-webkit-scrollbar {
         width: 5px;
@@ -46,6 +47,6 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        background: #ddd;
+        background: #d1d1d1;
     }
 }

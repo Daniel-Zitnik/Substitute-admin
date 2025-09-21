@@ -33,6 +33,7 @@ export const TheCalendar = (props: Props) => {
                 onChange={onCalendarChange}
                 disabledDate={disabledDates}
                 allowClear={false}
+                inputReadOnly={true}
             />
         </div>
     )
